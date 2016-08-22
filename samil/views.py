@@ -1,8 +1,9 @@
 from samil import app
+from flask import render_template
 
 @app.route('/')
 def index():
-    return 'Hello World! w/ xlsx'
+    return render_template("tests.html")
 
 @app.route('/xlstest')
 def xlstest():
