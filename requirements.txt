@@ -1,0 +1,3 @@
+PyMySQL==0.7.6
+Flask==0.11.1
+xlsxwriter==0.9.3
