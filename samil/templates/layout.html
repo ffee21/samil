@@ -4,68 +4,81 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>삼일오피스텔 전기료 계산 시스템</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/static/jslib/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/jslib/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/jslib/css/bootstrap-theme.min.css"> 
+    {% for cssitem in customcss %}
+    <link rel="stylesheet" href="/static/{{ cssitem }}.css"> 
+    {% endfor %}
+
 </head>
 
 <body>
 
 
 
-    <div class="container">
-        {% if not navbar is none %}
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+    {% if not navbar is none %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
               <span class="sr-only">메뉴 접기</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-                    <a class="navbar-brand" href="/">navbar | 222삼일오피스텔 전기료 계산 시스템</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li class="dropdown-header">Nav header</li>
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="#">One more separated link</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-                        <li><a href="../navbar-static-top/">Static top</a></li>
-                        <li><a href="../navbar-fixed-top/">Fixed top</a></li>
-                    </ul>
-                </div>
-                <!--/.nav-collapse -->
+                <a class="navbar-brand" href="/">삼일오피스텔 전기료 계산 시스템</a>
             </div>
-            <!--/.container-fluid -->
-        </nav>
-        {% endif %}
-        <!-- Main component for a primary marketing message or call to action -->
-        {% block body %}{% endblock %}
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Nav header</li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+                    <li><a href="../navbar-static-top/">Static top</a></li>
+                    <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+    </nav>
+    {% endif %}
 
-    </div>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    {% block body %}{% endblock %}
+
     <!-- /container -->
     <script src="/static/jslib/jquery-3.1.0.min.js"></script>
     <script src="/static/jslib/js/bootstrap.min.js"></script>
+    <script>
+        $(document).bind(
+            'touchmove',
+            function(e) {
+                e.preventDefault();
+            }
+        );
+        {% block script %} {% endblock %}
+    </script>
 </body>
 
 </html>
