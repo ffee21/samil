@@ -1,5 +1,6 @@
 from samil import app
 from flask import render_template, request
+from samil.db import checkpass
 
 @app.route('/cover')
 def cover():
@@ -16,6 +17,11 @@ def login():
 
 @app.route('/checkpass', methods=['POST'])
 def checkpath():
-    print(request.form.values())
     passcode = request.form.get('inputPasscode', "_")
-    return render_template("checkpass.html", navbar=None, msg=passcode);
+    msg = ""
+    if checkpass(passcode):
+        msg = "인증 성공"
+    else:
+        msg = "인증 실패"
+    
+    return render_template("checkpass.html", navbar=None, msg=msg);
