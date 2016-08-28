@@ -80,3 +80,36 @@ def menu():
         showmanagermenu=showmanagermenu,
         footermsg=footermsg
     )
+    
+@app.route('/input')
+def input_f():
+    footermsg = getfootermsg()
+    
+    if not isvalidsession():
+        return redirect(url_for('cover'))
+    
+    return render_template("input.html", 
+        navbar=None, customcss=["cover",],
+        footermsg=footermsg
+    )
+
+@app.route('/view')
+def view():
+    footermsg = getfootermsg()
+    
+    return render_template("view.html", 
+        navbar=None, customcss=["cover",],
+        footermsg=footermsg
+    )
+
+@app.route('/manage')
+def manage():
+    footermsg = getfootermsg()
+    
+    if not isvalidsession():
+        return redirect(url_for('cover'))
+    
+    return render_template("manage.html", 
+        navbar=None, customcss=["cover",],
+        footermsg=footermsg
+    )
