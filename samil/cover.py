@@ -16,6 +16,13 @@ def getfootermsg():
     
     return footermsg
 
+def isvalidsession():
+    if 'sessionkey' in session:
+        sessionkey = session["sessionkey"]
+        if checksessionkey(sessionkey):
+            return True
+    return False
+
 @app.route('/cover')
 def cover():
     footermsg = getfootermsg()
@@ -29,10 +36,8 @@ def cover():
 def login():
     footermsg = getfootermsg()
     
-    if 'sessionkey' in session:
-        sessionkey = session["sessionkey"]
-        if checksessionkey(sessionkey):
-            return redirect('cover')
+    if isvalidsession():
+        return redirect('menu')
 
     return render_template("login.html",
         navbar=None, customcss=["cover",], passcode_error=None,
@@ -41,26 +46,19 @@ def login():
 
 @app.route('/checkpass', methods=['POST'])
 def checkpass():
-    print("checkpass")
     footermsg = getfootermsg()
-    print("footermsg: " + footermsg)
     
     passcode = request.form.get('inputPasscode', "_")
     msg = ""
     
-    print("passcode: " + passcode)
-    
     new_sessionkey = getsessionkey(passcode)
-    print ("new sessionkey: " + str(new_sessionkey))
     
     if new_sessionkey:
         session['sessionkey'] = new_sessionkey
-        print ("redirect to: " + url_for('cover'))
-        return redirect(url_for('cover'))
+        return redirect(url_for('menu'))
     else:
         session.pop('sessionkey', None)
         msg = "인증 실패"
-        print ("render login.html with error msg")
         return render_template("login.html", customcss=["cover",], 
             navbar=None, msg=msg, passcode_error="error",
             footermsg=footermsg);
@@ -69,4 +67,16 @@ def checkpass():
 def logout():
     session.pop('sessionkey', None)
     return redirect(url_for('cover'))
+
+@app.route('/menu')
+def menu():
+    footermsg = getfootermsg()
+    showmanagermenu = None
+    if isvalidsession():
+        showmanagermenu = True
     
+    return render_template("menu.html", 
+        navbar=None, customcss=["cover",],
+        showmanagermenu=showmanagermenu,
+        footermsg=footermsg
+    )

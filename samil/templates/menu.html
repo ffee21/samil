@@ -1,0 +1,19 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="container fill vertical-center">
+    <div class="col-xs-10 col-xs-offset-1 text-center container">
+        {% if not showmanagermenu is none %}
+        <p> <a class="btn btn-lg btn-primary" href="/input" role="button">입력</a>
+        </p>
+        {% endif %}
+        <p>
+            <a class="btn btn-lg btn-primary" href="/view" role="button">조회</a>
+        </p>
+        {% if not showmanagermenu is none %}
+        <p>
+            <a class="btn btn-lg btn-primary" href="/manage" role="button">관리</a>
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} {% block script %} {% endblock %}
