@@ -10,10 +10,8 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/static/jslib/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/jslib/css/bootstrap-theme.min.css"> 
-    {% for cssitem in customcss %}
-    <link rel="stylesheet" href="/static/{{ cssitem }}.css"> 
-    {% endfor %}
+    <link rel="stylesheet" href="/static/jslib/css/bootstrap-theme.min.css"> {% for cssitem in customcss %}
+    <link rel="stylesheet" href="/static/{{ cssitem }}.css"> {% endfor %}
 
 </head>
 
@@ -62,11 +60,15 @@
         <!--/.container-fluid -->
     </nav>
     {% endif %}
-
-
-    <!-- Main component for a primary marketing message or call to action -->
-    {% block body %}{% endblock %}
-
+    <div class="wrapper fill">
+        <!--before body block-->
+        {% block body %}{% endblock %}
+        <!--after body block-->
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p class="copyright">Copyright &copy; 삼일오피스텔 2016 {% autoescape false %}{{ footermsg }}{% endautoescape %}</p>
+    </div>
     <!-- /container -->
     <script src="/static/jslib/jquery-3.1.0.min.js"></script>
     <script src="/static/jslib/js/bootstrap.min.js"></script>
@@ -77,7 +79,6 @@
                 e.preventDefault();
             }
         );
-        {% block script %} {% endblock %}
     </script>
 </body>
 
