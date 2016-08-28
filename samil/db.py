@@ -30,20 +30,6 @@ def _joinallrows(cur, delim, usePar=False):
             templist.append(_joinarow(row,","))
     
     return delim.join(templist)
-    
-
-def checkpass(passcode, conn=None):
-    if conn is None:
-        conn = _connect()
-    cur = conn.cursor()
-    
-    cur.execute("SELECT checkpass(%s)", (passcode))
-    result = _joinallrows(cur, "/")
-    print(result)
-    cur.close()
-    conn.close()
-    
-    return (result == "1")
 
 def getsessionkey(passcode, conn=None):
     if conn is None:
@@ -56,7 +42,6 @@ def getsessionkey(passcode, conn=None):
     if (result == "1"):
         cur.execute("SELECT createsession()")
         result = _joinallrows(cur, "/")
-        print(result)
     else:
         result = None
     
@@ -71,11 +56,9 @@ def checksessionkey(sessionkey, conn=None):
     if conn is None:
         conn = _connect()
     cur = conn.cursor()
-    print("SELECT checksessionkey(%s): " + sessionkey)
     
     cur.execute("SELECT checksessionkey(%s)", (sessionkey))
     
     result = _joinallrows(cur, "/")
     
-    print("check sesionkey result: " + result)
     return (result == "1")
