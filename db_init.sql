@@ -11,6 +11,15 @@ USE c9;
 DROP TABLE IF EXISTS test;
 DROP TABLE IF EXISTS passcode;
 DROP TABLE IF EXISTS session;
+DROP TABLE IF EXISTS building;
+DROP TABLE IF EXISTS floor;
+DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS roommeter;
+DROP TABLE IF EXISTS floormeter;
+DROP TABLE IF EXISTS floorbill;
+DROP TABLE IF EXISTS roombill_calc;
+
+
 
 -- DROP ALL FUNCTIONS
 DROP FUNCTION IF EXISTS checkpass;
@@ -42,7 +51,64 @@ CREATE TABLE session (
     whencreated DATETIME NOT NULL
 );
 
+-- BUILDING TABLE
 
+CREATE TABLE building (
+    theid INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE KEY
+);
+
+-- FLOOR TABLE
+
+CREATE TABLE floor (
+    theid INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_buildingid INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE KEY
+);
+
+-- ROOM TABLE
+
+CREATE TABLE room (
+    theid INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_floorid INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE KEY
+);
+
+-- ROOMMETER TABLE
+
+CREATE TABLE roommeter (
+    theid INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_roomid INTEGER NOT NULL,
+    metervalue INTEGER NOT NULL,
+    yearmonth CHAR(6) NOT NULL
+);
+
+-- FLOORMETER TABLE
+
+CREATE TABLE floormeter (
+    theid INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_floorid INTEGER NOT NULL,
+    metervalue INTEGER NOT NULL,
+    yearmonth CHAR(6) NOT NULL
+);
+
+-- FLOORBILL TABLE
+
+CREATE TABLE floorbill (
+    theid INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_floorid INTEGER NOT NULL,
+    billmoney INTEGER NOT NULL,
+    yearmonth CHAR(6) NOT NULL
+);
+
+-- ROOMBILL TABLE
+
+CREATE TABLE roombill_calc (
+    theid INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fk_roomid INTEGER NOT NULL,
+    billmoney INTEGER NOT NULL,
+    yearmonth CHAR(6) NOT NULL
+);
 
 
 
@@ -52,7 +118,48 @@ CREATE TABLE session (
 -- INSERT INTO passcode (passcode, whencreated, isvalid) VALUES ('98408787', CONVERT_TZ(NOW(), '+00:00', '+09:00'), b'1');
 INSERT INTO passcode (passcode, whencreated, isvalid) VALUES ('0', CONVERT_TZ(NOW(), '+00:00', '+09:00'), b'1');
 
+INSERT INTO building (name) VALUES ('삼일오피스텔');
 
+SELECT theid FROM building WHERE name = '삼일오피스텔' INTO @buildingid1;
+
+INSERT INTO floor (fk_buildingid, name) VALUES (@buildingid1, '1층');
+SELECT theid FROM floor WHERE fk_buildingid = @buildingid1 AND name = '1층' INTO @floorid1;
+
+INSERT INTO floor (fk_buildingid, name) VALUES (@buildingid1, '2층');
+SELECT theid FROM floor WHERE fk_buildingid = @buildingid1 AND name = '2층' INTO @floorid2;
+
+INSERT INTO floor (fk_buildingid, name) VALUES (@buildingid1, '3층');
+SELECT theid FROM floor WHERE fk_buildingid = @buildingid1 AND name = '3층' INTO @floorid3;
+
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid1, '101호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '101호' INTO @roomid101;
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid1, '102호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '102호' INTO @roomid102;
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid1, '103호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '103호' INTO @roomid103;
+
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid2, '201호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '201호' INTO @roomid201;
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid2, '202호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '202호' INTO @roomid202;
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid2, '203호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '203호' INTO @roomid203;
+
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid3, '301호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '301호' INTO @roomid301;
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid3, '302호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '302호' INTO @roomid302;
+
+INSERT INTO room (fk_floorid, name) VALUES (@floorid3, '303호');
+SELECT theid FROM room WHERE fk_floorid = @floorid1 AND name = '303호' INTO @roomid303;
 
 
 
