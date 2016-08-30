@@ -1,29 +1,11 @@
 from samil import app
 from flask import render_template, request, session, url_for, redirect
-from samil.db import getsessionkey, checksessionkey
+from samil.db import *
+from samil.security import *
 
-
-def getfootermsg():
-    if 'sessionkey' in session:
-        sessionkey = session["sessionkey"]
-        if checksessionkey(sessionkey):
-            footermsg = "| <a href=\"/logout\">로그아웃</a>"
-        else:
-            session.pop('sessionkey', None)
-            footermsg = "| <a href=\"/login\">로그인</a>"
-    else:
-        footermsg = "| <a href=\"/login\">로그인</a>"
-    
-    return footermsg
-
-def isvalidsession():
-    if 'sessionkey' in session:
-        sessionkey = session["sessionkey"]
-        if checksessionkey(sessionkey):
-            return True
-    return False
 
 @app.route('/cover')
+@put_accesslog
 def cover():
     footermsg = getfootermsg()
     
@@ -33,6 +15,7 @@ def cover():
     )
     
 @app.route('/login')
+@put_accesslog
 def login():
     footermsg = getfootermsg()
     
@@ -45,6 +28,7 @@ def login():
     )
 
 @app.route('/checkpass', methods=['POST'])
+@put_accesslog
 def checkpass():
     footermsg = getfootermsg()
     
@@ -64,11 +48,13 @@ def checkpass():
             footermsg=footermsg);
 
 @app.route('/logout')
+@put_accesslog
 def logout():
     session.pop('sessionkey', None)
     return redirect(url_for('cover'))
 
 @app.route('/menu')
+@put_accesslog
 def menu():
     footermsg = getfootermsg()
     showmanagermenu = None
@@ -82,11 +68,13 @@ def menu():
     )
     
 @app.route('/input')
+@put_accesslog
+@login_required
 def input_f():
     footermsg = getfootermsg()
     
-    if not isvalidsession():
-        return redirect(url_for('cover'))
+    # if not isvalidsession():
+    #     return redirect(url_for('cover'))
     
     return render_template("input.html", 
         navbar=None, customcss=["cover",],
@@ -94,6 +82,7 @@ def input_f():
     )
 
 @app.route('/view')
+@put_accesslog
 def view():
     footermsg = getfootermsg()
     
@@ -103,6 +92,8 @@ def view():
     )
 
 @app.route('/manage')
+@put_accesslog
+@login_required
 def manage():
     footermsg = getfootermsg()
     
